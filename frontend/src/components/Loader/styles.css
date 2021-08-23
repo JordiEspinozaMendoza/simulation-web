@@ -1,0 +1,32 @@
+.loaderDots {
+  margin: 20px 0;
+  width: 90px;
+}
+.loaderDots > div {
+  width: 14px;
+  height: 14px;
+  background-color: #021f59;
+  border-radius: 100%;
+
+  display: inline-block;
+  animation: bounce 1.5s infinite ease-in-out both;
+}
+.loaderDots .dot1 {
+  animation-delay: -0.3s;
+}
+.loaderDots .dot2 {
+  animation-delay: -0.1s;
+}
+
+@keyframes bounce {
+  0%,
+  80%,
+  100% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+  35% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
