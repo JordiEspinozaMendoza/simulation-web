@@ -10,15 +10,5 @@ export const defaultTheme = {
   textColorInverted: neutral[100],
   textOnDisabled: neutral[300],
   primaryFont: primaryFont,
-  status: {
-    warningColor: yellow[100],
-    warningColorHover: yellow[200],
-    warningColorActive: yellow[300],
-    errorColor: main[100],
-    errorColorHover: main[200],
-    errorColorActive: main[300],
-    successColor: green[100],
-    successColorHover: green[200],
-    successColorActive: green[300],
-  },
+
 };

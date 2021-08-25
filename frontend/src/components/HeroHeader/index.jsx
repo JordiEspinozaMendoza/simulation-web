@@ -84,10 +84,13 @@ export const HeroHeader = ({}) => {
   return (
     <HeroHeaderStyled>
       <h1>Simulación</h1>
-      <span>Nostrud nulla irure eiusmod cillum occaecat sit.</span>
+      <span>Generador de números pseudoaleatorios y pruebas.</span>
       <ButtonsContainer>
         <Col sm={4}>
-          <TertiaryButton modifiers={[largeButton && "large"]}>
+          <TertiaryButton
+            modifiers={[largeButton && "large"]}
+            onClick={() => history.push("/exercises/tests/smirnov")}
+          >
             Smirnov
           </TertiaryButton>
         </Col>

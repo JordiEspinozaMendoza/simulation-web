@@ -33,22 +33,11 @@ export const NavigationBar = () => {
             <Nav.Link eventKey="2" to="/exercises/generator/" as={Link}>
               Generador
             </Nav.Link>
-            <NavDropdown title="Tests" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
           </Nav>
-          <Nav className="mr-auto">
+          {/* <Nav className="mr-auto">
             <span style={{ marginRight: "12px" }}>Modo oscuro</span>
             <Form.Check type="switch" id="custom-switch" />
-          </Nav>
+          </Nav> */}
         </Navbar.Collapse>
       </Container>
     </StyledNav>

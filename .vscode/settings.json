@@ -1,5 +1,3 @@
 {
-    "cSpell.words": [
-        "smirnov"
-    ]
+    "python.formatting.provider": "black"
 }
