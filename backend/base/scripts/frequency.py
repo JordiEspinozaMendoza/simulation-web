@@ -1,7 +1,7 @@
 import sys
 import os
 import pandas as pad
-from pandas.core.frame import DataFrame
+# from pandas.core.frame import DataFrame
 from base.scripts.generator import *
 from base.scripts.tableChi import *
 
