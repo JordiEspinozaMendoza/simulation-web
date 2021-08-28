@@ -147,7 +147,7 @@ export default function GeneratorView() {
             )}
           </Form>
           <h2 ref={refPseudoNumbers} style={{ marginTop: "1rem" }}>
-            {state.response ? "Resultados 💯" : ""}
+            {state.response ? "Resultados" : ""}
           </h2>
           {state.response && (
             <>
@@ -163,6 +163,7 @@ export default function GeneratorView() {
                       dispatch({
                         type: actions.SAVE_PSEUDO_NUMBERS,
                       });
+                      toast.success("Números guardados correctamente");
                     }}
                   >
                     Guardar estos números &#x2705;
@@ -198,7 +199,6 @@ export default function GeneratorView() {
                 striped
                 hover
                 responsive
-                bordered
                 className="table-sm mt-4"
               >
                 <thead>

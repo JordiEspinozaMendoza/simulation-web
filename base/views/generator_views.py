@@ -6,12 +6,12 @@ from rest_framework.response import Response
 from rest_framework import status
 from base.scripts.generator import CallGenerator
 
+data_generator = {"n": [], "Xn": [], "Xn+1": [], "Rn": []}
 
 @api_view(["POST"])
 def generateNumbers(request):
     try:
         data = request.data
-        data_generator = {"n": [], "Xn": [], "Xn+1": [], "Rn": []}
         CallGenerator(
             int(data["x0"]),
             int(data["a"]),
@@ -38,5 +38,4 @@ def generateNumbers(request):
         }, status=status.HTTP_200_OK)
     except Exception as e:
         print('Error details: ' + ' ' + str(e))
-
         return Response("Verifica los números introducidos", status=status.HTTP_400_BAD_REQUEST)

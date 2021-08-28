@@ -1,6 +1,5 @@
 from base.scripts.generator import *
 import pandas as pd
-from pandas.core.frame import DataFrame
 import math
 from base.utils.smirnovDataTable import getSmirnovDataTable
 

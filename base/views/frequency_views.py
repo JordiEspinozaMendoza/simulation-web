@@ -8,29 +8,39 @@ from base.scripts.frequency import TestFrequency
 from base.scripts.generator import CallGenerator
 
 import pandas as pd
+import os, sys
 
 
-@api_view(["GET"])
+@api_view(["POST"])
 def callTestFrequency(request):
-    data = request.data
-    # testNumbers = []
-
-    # for i in data["df"]:
-    #     testNumbers.append(int(i))
-    data_generator = {"n": [], "Xn": [], "Xn+1": [], "Rn": []}
-    CallGenerator(17, 101, 221, 17001, 0, False, [], data_generator)
-
-    # ? We declare a object of the class TestFrequency
-    testFrequency = TestFrequency(
-        int(data["numberGroups"]),
-        float(data["alpha"]),
-        data_generator
-    )
-    dfFrequency, foundedChiFreq, chiFreq, dfFreq = testFrequency.solve()
-    response = {
-        "dfFrequency": dfFrequency,
-        "foundedChiFrequency": foundedChiFreq,
-        "chiFrequency": chiFreq,
-        "dfFrequency": dfFreq,
-    }
-    return Response(response, status=status.HTTP_200_OK)
+    try:
+        data = request.data
+        # ? We declare a object of the class TestFrequency
+        testFrequency = TestFrequency(
+            int(data["numberGroups"]),
+            float(data["alpha"]),
+            data["pseudoNumbers"])
+        dfFrequency, foundedChiFreq, chiFreq, dfFreq = testFrequency.solve()
+        responseDf = []
+        for i in range(0, len(dfFrequency["Intervalo"])):
+            responseDf.append(
+                {
+                    "Interval": dfFrequency["Intervalo"][i],
+                    "FE": dfFrequency["FE"][i],
+                    "FO": dfFrequency["FO"][i],
+                    "Group": dfFrequency["Grupo"][i],
+                }
+            )
+        response = {
+            "dfFrequency": responseDf,
+            "foundedChiFrequency": foundedChiFreq,
+            "chiFrequency": chiFreq,
+            "dfFreq": dfFreq,
+        }
+        return Response(response, status=status.HTTP_200_OK)
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+        message = {'detail': 'Something bad happen'}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)

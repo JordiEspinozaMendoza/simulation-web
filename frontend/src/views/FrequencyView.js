@@ -1,20 +1,29 @@
 import React, { useReducer } from "react";
 import { PrimaryButton, SecondaryButton } from "../components";
-import { Form, FormGroup, FormLabel, FormControl } from "react-bootstrap";
+import {
+  Form,
+  FormGroup,
+  FormLabel,
+  FormControl,
+  Table,
+} from "react-bootstrap";
 
 import { callApi } from "../api";
 import { LoaderDots } from "../components";
-import {  ContainerStyled } from "../utils";
+import { ContainerStyled } from "../utils";
 import { ToastAlert } from "../components";
 import toast from "react-hot-toast";
 
-import { smirnovActions as actions } from "../actions";
-import { smirnovReducers as reducer } from "../reducers";
-import { smirnovInitialState as initialState } from "../constants";
+import { frequencyActions as actions } from "../actions";
+import { frequencyReducers as reducer } from "../reducers";
+import { frequencyInitialState as initialState } from "../constants";
 
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-
+const alphaValues = [
+  0.001, 0.0025, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 0.1, 0.15, 0.2, 0.25,
+  0.3, 0.35, 0.4, 0.45, 0.5,
+];
 const ResponseContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -23,9 +32,9 @@ const ResponseContainer = styled.div`
   margin-top: 2rem;
   width: 80%;
 `;
-export default function SmirnovView() {
-  const [state, dispatch] = useReducer(reducer, initialState);
 
+export default function FrequencyView() {
+  const [state, dispatch] = useReducer(reducer, initialState);
   const history = useHistory();
   const pseudoNumbers =
     localStorage.getItem("pseudo-numbers") &&
@@ -48,40 +57,49 @@ export default function SmirnovView() {
     event.preventDefault();
     toast.promise(
       callApi(
-        "/api/smirnov/test/",
+        "/api/frequency/test/",
         "POST",
         {
           pseudoNumbers: pseudoNumbers,
-          percent: state?.percent,
+          alpha: state?.alpha,
           numberGroups: state?.numberGroups,
         },
         {
-          SUCCESS: actions.SUCCESS_SMIRNOV,
-          FAIL: actions.FAIL_SMIRNOV,
-          REQUEST: actions.REQUEST_SMIRNOV,
+          SUCCESS: actions.SUCCESS_FREQUENCY,
+          FAIL: actions.FAIL_FREQUENCY,
+          REQUEST: actions.REQUEST_FREQUENCY,
         },
         dispatch
       ),
       {
-        loading: "Realizando prueba de smirnov",
+        loading: "Realizando prueba de frequencia",
         success: "Prueba finalizada",
         error: (e) => `${e}`,
       }
     );
   };
+  React.useEffect(() => {
+    console.log(state.response);
+  }, [state.response])
   return (
     <ContainerStyled>
-      <h1>Prueba de Smirnov &#9997;</h1>
-
+      <ToastAlert />
+      <h1>Prueba de Frecuencia &#9997;</h1>
       <Form onSubmit={handleSubmit}>
         <FormGroup>
-          <FormLabel>Porcentaje &#x25;</FormLabel>
+          <FormLabel>Valor de alpha</FormLabel>
           <FormControl
-            value={state.percent}
-            type="number"
-            name="percent"
+            as="select"
+            value={state.alpha}
+            name="alpha"
             onChange={handleChange}
-          />
+          >
+            {alphaValues.map((value, index) => (
+              <option key={index} value={value}>
+                {value}
+              </option>
+            ))}
+          </FormControl>
         </FormGroup>
         <FormGroup>
           <FormLabel>Número de grupos</FormLabel>
@@ -95,7 +113,7 @@ export default function SmirnovView() {
         {pseudoNumbers ? (
           <>
             <FormLabel>
-              Total de números generados actualmente:{" "}
+              Total de números generados actualmente:
               {pseudoNumbers["n"].length}. <b className="b-link">Ver números</b>
             </FormLabel>
             <br />
@@ -118,24 +136,27 @@ export default function SmirnovView() {
         )}
       </Form>
       {state.response && (
-        <ResponseContainer>
-          <h2>Resultados 💯</h2>
-          <span>
-            <b>Di de tablas </b>: {state.response.about}
-          </span>
-          <br />
-          <span>
-            <b>Di máximo</b>: {state.response.max}
-          </span>
-          <br />
-
-          <span>
-            <b>Resultado: </b>
-            {state.response.message}
-          </span>
-        </ResponseContainer>
+        <Table striped hover responsive className="table-sm mt-4">
+          <thead>
+            <tr>
+              <th>Intervalo</th>
+              <th>FE</th>
+              <th>F0</th>
+              <th>Grupo</th>
+            </tr>
+          </thead>
+          <tbody>
+            {state.response?.dfFrequency?.map((item, index) => (
+              <tr key={index}>
+                <td>{item["Interval"]}</td>
+                <td>{item["FE"]}</td>
+                <td>{item["FO"]}</td>
+                <td>{item["Group"]}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
       )}
-      <ToastAlert />
     </ContainerStyled>
   );
 }

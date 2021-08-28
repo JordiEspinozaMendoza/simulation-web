@@ -18,6 +18,6 @@ export async function callApi(url, method, body, constants, dispatch) {
       type: FAIL,
       payload: error.message,
     });
-    throw error.response?.data ? error.response.data : error.message;
+    throw "Ingresa parametros correctos"
   }
 }
