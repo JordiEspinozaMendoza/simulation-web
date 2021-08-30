@@ -103,7 +103,10 @@ export const HeroHeader = ({}) => {
           </TertiaryButton>
         </Col>
         <Col sm={4}>
-          <TertiaryButton modifiers={[largeButton && "large"]}>
+          <TertiaryButton
+            modifiers={[largeButton && "large"]}
+            onClick={() => history.push("exercises/tests/frequency")}
+          >
             Frecuencia
           </TertiaryButton>
         </Col>

@@ -30,11 +30,7 @@ export const smirnovReducers = (state = {}, action) => {
     case actions.SET_MODAL:
       return {
         ...state,
-        messageModal: action.message,
-        titleModal: action.title,
-        showModalCall: action.show,
-        modalAction: action.action,
-        hideModal: action.hide,
+        showModal: action.show,
       };
   }
 };

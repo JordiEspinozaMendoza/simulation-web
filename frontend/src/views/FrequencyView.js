@@ -17,7 +17,7 @@ import toast from "react-hot-toast";
 import { frequencyActions as actions } from "../actions";
 import { frequencyReducers as reducer } from "../reducers";
 import { frequencyInitialState as initialState } from "../constants";
-
+import { ModalNumbers } from "../components";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 const alphaValues = [
@@ -78,9 +78,12 @@ export default function FrequencyView() {
       }
     );
   };
-  React.useEffect(() => {
-    console.log(state.response);
-  }, [state.response])
+  const showModalHandler = (show) => {
+    dispatch({
+      type: actions.SET_MODAL,
+      show: show,
+    });
+  };
   return (
     <ContainerStyled>
       <ToastAlert />
@@ -94,6 +97,7 @@ export default function FrequencyView() {
             name="alpha"
             onChange={handleChange}
           >
+            <option defaultValue>Seleccione un valor</option>
             {alphaValues.map((value, index) => (
               <option key={index} value={value}>
                 {value}
@@ -114,7 +118,10 @@ export default function FrequencyView() {
           <>
             <FormLabel>
               Total de números generados actualmente:
-              {pseudoNumbers["n"].length}. <b className="b-link">Ver números</b>
+              {pseudoNumbers["n"].length}.{" "}
+              <b className="b-link" onClick={() => showModalHandler(true)}>
+                Ver números
+              </b>
             </FormLabel>
             <br />
             {state.loading ? (
@@ -157,6 +164,10 @@ export default function FrequencyView() {
           </tbody>
         </Table>
       )}
+      <ModalNumbers
+        show={state.showModal}
+        onHandleClose={() => showModalHandler(false)}
+      />
     </ContainerStyled>
   );
 }

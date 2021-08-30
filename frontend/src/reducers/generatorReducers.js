@@ -33,8 +33,18 @@ export const generatorReducers = (state = {}, action) => {
         m: 17001,
       };
     case actions.SAVE_PSEUDO_NUMBERS:
-      state.response &&
-        localStorage.setItem("pseudo-numbers", JSON.stringify(state.pseudoNumbers));
+      if (state.response) {
+        localStorage.removeItem("pseudo-numbers");
+        localStorage.removeItem("pseudo-numbers-modal");
+        localStorage.setItem(
+          "pseudo-numbers",
+          JSON.stringify(state.pseudoNumbers)
+        );
+        localStorage.setItem(
+          "pseudo-numbers-modal",
+          JSON.stringify(state.response)
+        );
+      }
       return state;
   }
 };

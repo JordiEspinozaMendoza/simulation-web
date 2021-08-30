@@ -6,11 +6,7 @@ export const smirnovInitialState = {
     success: false,
     message: "",
     response: undefined,
-    
-    titleModal: "",
-    messageModal: "",
-    showModalCall: false,
-    modalAction: null,
-    hideModal: false,    
+    showModal: false,
+ 
   };
   

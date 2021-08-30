@@ -33,6 +33,12 @@ export const NavigationBar = () => {
             <Nav.Link eventKey="2" to="/exercises/generator/" as={Link}>
               Generador
             </Nav.Link>
+            <Nav.Link eventKey="2" to="/exercises/tests/smirnov" as={Link}>
+              Smirnov
+            </Nav.Link>
+            <Nav.Link eventKey="2" to="/exercises/tests/frequency" as={Link}>
+              Frecuencia
+            </Nav.Link>
           </Nav>
           {/* <Nav className="mr-auto">
             <span style={{ marginRight: "12px" }}>Modo oscuro</span>

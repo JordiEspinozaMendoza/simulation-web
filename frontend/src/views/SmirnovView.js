@@ -1,10 +1,10 @@
 import React, { useReducer } from "react";
-import { PrimaryButton, SecondaryButton } from "../components";
+import { PrimaryButton, SecondaryButton, ModalNumbers } from "../components";
 import { Form, FormGroup, FormLabel, FormControl } from "react-bootstrap";
 
 import { callApi } from "../api";
 import { LoaderDots } from "../components";
-import {  ContainerStyled } from "../utils";
+import { ContainerStyled } from "../utils";
 import { ToastAlert } from "../components";
 import toast from "react-hot-toast";
 
@@ -42,6 +42,12 @@ export default function SmirnovView() {
         key: name,
         value,
       },
+    });
+  };
+  const showModalHandler = (show) => {
+    dispatch({
+      type: actions.SET_MODAL,
+      show: show,
     });
   };
   const handleSubmit = (event) => {
@@ -95,8 +101,11 @@ export default function SmirnovView() {
         {pseudoNumbers ? (
           <>
             <FormLabel>
-              Total de números generados actualmente:{" "}
-              {pseudoNumbers["n"].length}. <b className="b-link">Ver números</b>
+              Total de números generados actualmente:
+              {pseudoNumbers["n"].length}.
+              <b className="b-link" onClick={()=>showModalHandler(true)}>
+                Ver números
+              </b>
             </FormLabel>
             <br />
             {state.loading ? (
@@ -136,6 +145,7 @@ export default function SmirnovView() {
         </ResponseContainer>
       )}
       <ToastAlert />
+      <ModalNumbers show={state.showModal} onHandleClose={()=>showModalHandler(false)} />
     </ContainerStyled>
   );
 }
